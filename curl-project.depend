@@ -1,7 +1,10 @@
 # depslib dependency file v1.0
-1549894994 source:c:\users\igor\desktop\Нормали Тех.присоединение\games\projects\curl-project\main.cpp
+1554128335 source:c:\users\igor\desktop\Нормали Тех.присоединение\games\projects\curl-project\main.cpp
 	<string>
 	<iostream>
 	<sstream>
+	<stdio.h>
+	<stdlib.h>
+	<unistd.h>
 	<curl/curl.h>
 
