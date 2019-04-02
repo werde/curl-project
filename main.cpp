@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <openssl/ssl.h>
 
 #include <curl/curl.h>
 
@@ -37,6 +36,21 @@ struct curl_slist* make_headers()
     return csl;
 };
 
+void ssl_init(struct curl_slist* csl)
+{
+    const char *pPassphrase = NULL;
+
+    static const char *pCertFile = "testcert.pem";
+    static const char *pCACertFile = "cacert.pem";
+    static const char *pHeaderFile = "dumpit";
+
+    const char *pKeyName;
+    const char *pKeyType;
+    const char *pEngine;
+    https://curl.haxx.se/libcurl/c/simplessl.html
+
+}
+
 int main()
 {
     CURL* curl_handle;
@@ -46,6 +60,7 @@ int main()
     curl_handle = curl_easy_init();
 
     curl_easy_setopt(curl_handle, CURLOPT_URL, "http://google.com");
+    curl_easy_setopt(curl_handle, CURLOPT_SSLENGINE, "dynamic");
     curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.0; rv:52.0) Gecko/20100101 Firefox/52.0");
 
     curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, csl);
