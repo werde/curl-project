@@ -49,6 +49,12 @@ void ssl_init(struct curl_slist* csl)
     const char *pEngine;
     https://curl.haxx.se/libcurl/c/simplessl.html
 
+    curl_easy_setopt(csl, CURLOPT_SSLCERTTYPE, "PEM");
+    curl_easy_setopt(csl, CURLOPT_SSLCERT, pCertFile);
+    curl_easy_setopt(csl, CURLOPT_SSLKEYTYPE, pKeyType);
+    curl_easy_setopt(csl, CURLOPT_SSLKEY, pKeyName);
+    curl_easy_setopt(csl, CURLOPT_CAINFO, pCACertFile);
+    curl_easy_setopt(csl, CURLOPT_SSL_VERIFYPEER, 1L);
 }
 
 int main()
@@ -59,7 +65,7 @@ int main()
     curl_global_init(CURL_GLOBAL_ALL);
     curl_handle = curl_easy_init();
 
-    curl_easy_setopt(curl_handle, CURLOPT_URL, "http://google.com");
+    curl_easy_setopt(curl_handle, CURLOPT_URL, "https://google.com");
     curl_easy_setopt(curl_handle, CURLOPT_SSLENGINE, "dynamic");
     curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.0; rv:52.0) Gecko/20100101 Firefox/52.0");
 
@@ -69,6 +75,8 @@ int main()
     curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_data);
     curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, cb_write_header_data);
+
+    ssl_init(csl);
 
     CURLcode res = curl_easy_perform(curl_handle);
     if(res != CURLE_OK)
