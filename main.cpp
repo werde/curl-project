@@ -57,9 +57,21 @@ void ssl_init(struct curl_slist* csl)
     curl_easy_setopt(csl, CURLOPT_SSL_VERIFYPEER, 1L);
 }
 
+void put_youtube_like()
+{
+    url: https://www.youtube.com/service_ajax?name=likeEndpoint
+    method: POST
+
+    FORM DATA
+    name: "likeEndpoint"
+    sej:{"clickTrackingParams":"CJEBEJhNGAMiEwj86YbWkcXhAhVOCrIKHY6PAU8o-B0=","commandMetadata":{"webCommandMetadata":{"url":"/service_ajax","sendPost":true}},"likeEndpoint":{"status":"INDIFFERENT","target":{"videoId":"4n_vtmbsMK8"}}}
+    csn: "YK2tXPy5Ds6UyAWOn4b4BA"
+    session_token: "QUFFLUhqa1hfWDhac0xzcjR0NzJ4cjhpdVZ3Qm02LTFwUXxBQ3Jtc0trOGRoVWJEU0d0TERwTnhTc1NFbmY1UXAwYUtSWWg3TXRkcXNxY1RkSmtxZFF1RHE4T2E4WHJjLTV2QkpVV3dqZk54WWpacmtUN0Vja1RBLXBnVTc5cmFkTVY3TE5TUFgyTE9OZUhOMHFGTWs2ZUcxSTllYi1mVXpvMUFzZXdUZWxUdWJoMWVUQVg3cFNFaTFFNlFpUk5Cc2ZycEE="
+}
+
 int main()
 {
-    CURL* curl_handle;
+   /* CURL* curl_handle;
     struct curl_slist* csl = make_headers();
 
     curl_global_init(CURL_GLOBAL_ALL);
@@ -75,13 +87,35 @@ int main()
     curl_easy_setopt(curl_handle, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, write_data);
     curl_easy_setopt(curl_handle, CURLOPT_HEADERFUNCTION, cb_write_header_data);
-
     ssl_init(csl);
 
     CURLcode res = curl_easy_perform(curl_handle);
     if(res != CURLE_OK)
         printf("error: %s\n", curl_easy_strerror(res));
 
-    curl_easy_cleanup(curl_handle);
+    curl_easy_cleanup(curl_handle);*/
+    //return 0;
+      CURL *curl;
+       CURLcode res;
+
+  curl = curl_easy_init();
+    if(curl)
+    {
+    /* First set the URL that is about to receive our POST. This URL can
+       just as well be a https:// URL if that is what should receive the
+       data. */
+    curl_easy_setopt(curl, CURLOPT_URL, "https://www.youtube.com.");
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+    /* Perform the request, res will get the return code */
+    res = curl_easy_perform(curl);
+    if(res != CURLE_OK)
+        printf("error: %s\n", curl_easy_strerror(res));
+
+    /* always cleanup */
+    curl_easy_cleanup(curl);
+    }
+
     return 0;
 }
